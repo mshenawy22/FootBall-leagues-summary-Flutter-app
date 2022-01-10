@@ -77,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
 
-    BlocProvider.of<MatchesRepoCubit>(context).fetching();
+    BlocProvider.of<MatchesRepoCubit>(context).fetchWinnerbyMatches();
 
   }
 
@@ -111,10 +111,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
             },
             builder: (context, state) {
-              if(state.status== MatchesRepoStatus.loading)
+              if(state.status== MatchesRepoStatus.FETCHING_MATCHES)
                 return Text('Still loading');
 
-              else if (state.status== MatchesRepoStatus.success)
+              else if (state.status== MatchesRepoStatus.WINNER_COMPUTED)
                 return
               Container (
                 padding: EdgeInsets.symmetric(horizontal: 10),

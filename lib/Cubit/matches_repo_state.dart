@@ -1,7 +1,7 @@
 part of 'matches_repo_cubit.dart';
 
 
-enum MatchesRepoStatus { initial, loading, success, failure }
+enum MatchesRepoStatus { INITIAL , FETCHING_MATCHES, WINNER_COMPUTED, FETCHING_TEAM_INFO , TEAM_INFO_SUCCESS, FAILURE }
 
 class MatchesRepoState {
   Team? teamWithMostWins;
