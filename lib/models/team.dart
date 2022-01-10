@@ -7,47 +7,47 @@ import 'dart:convert';
 
 import 'matches_history.dart';
 
-class Team {
-  Team({
-    required this.id,
-    required this.area,
-    required this.name,
-    required this.shortName,
-    required this.tla,
-    required this.crestUrl,
-    required this.address,
-    required this.phone,
-    required this.website,
-    required this.email,
-    required this.founded,
-    required this.clubColors,
-    required this.venue,
-    required this.lastUpdated,
+class TeamModel {
+  TeamModel({
+     this.id,
+     this.area,
+     this.name,
+     this.shortName,
+     this.tla,
+     this.crestUrl,
+     this.address,
+     this.phone,
+     this.website,
+     this.email,
+     this.founded,
+     this.clubColors,
+     this.venue,
+     this.lastUpdated,
   });
 
-  int id;
-  Area area;
-  String name;
-  String shortName;
-  String tla;
-  String crestUrl;
-  String address;
-  String phone;
-  String website;
-  String email;
-  int founded;
-  String clubColors;
-  String venue;
+  int? id;
+  Area? area;
+  String? name;
+  String? shortName;
+  String? tla;
+  String? crestUrl;
+  String? address;
+  String? phone;
+  String? website;
+  String? email;
+  int? founded;
+  String? clubColors;
+  String? venue;
 
-  DateTime lastUpdated;
+  DateTime? lastUpdated;
 
 
 
-  factory Team.fromJson(String str) => Team.fromMap(json.decode(str));
+  factory TeamModel.fromJson(String str) => TeamModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Team.fromMap(Map<String, dynamic> json) => Team(
+  factory TeamModel.fromMap(Map<String, dynamic> json) => TeamModel(
     id: json["id"] == null ? null : json["id"],
     area: json["area"] == null ? null : Area.fromMap(json["area"]),
 
@@ -67,7 +67,7 @@ class Team {
 
   Map<String, dynamic> toMap() => {
     "id": id == null ? null : id,
-    "area": area == null ? null : area.toMap(),
+    "area": area == null ? null : area?.toMap(),
      "name": name == null ? null : name,
     "shortName": shortName == null ? null : shortName,
     "tla": tla == null ? null : tla,
@@ -79,6 +79,6 @@ class Team {
     "founded": founded == null ? null : founded,
     "clubColors": clubColors == null ? null : clubColors,
     "venue": venue == null ? null : venue,
-    "lastUpdated": lastUpdated == null ? null : lastUpdated.toIso8601String(),
+    "lastUpdated": lastUpdated == null ? null : lastUpdated?.toIso8601String(),
   };
 }
