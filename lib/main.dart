@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               brightness: Brightness.dark,
               scaffoldBackgroundColor:  Colors.amber,
               primaryTextTheme: const TextTheme(
-                headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.black87),
                 headline2: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold , color: Colors.blue ),
                 bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
               ),
@@ -125,7 +125,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         children: [
                           Text( 'Team with the most wins in last 30 days is : ',
                               style : Theme.of(context).primaryTextTheme.headline1),
-                          Text('${state.teamWithMostWins?.name} with ${state.teamWithMostWins?.numofWins} wins.',
+                          Text('${state.teamWithMostWins?.teamBasicInfo.name} with ${state.teamWithMostWins?.numofWins} wins.',
                             style: Theme.of(context).primaryTextTheme.headline2,
                           )
                         ]
