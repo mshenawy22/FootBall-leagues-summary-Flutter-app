@@ -27,21 +27,6 @@ class MatchesRepoCubit extends Cubit<MatchesRepoState> {
 
   }
 
-  void fetchTeamInfo(int teamId ) async {
-
-
-    final teamServices = TeamServices(teamId);
-    emit(MatchesRepoState(status: MatchesRepoStatus.FETCHING_TEAM_INFO));
-    try {
-      var teamAllInfo = await teamServices.findbyID(teamId);
-      emit (MatchesRepoState(status:MatchesRepoStatus.TEAM_INFO_SUCCESS ,teamAllInfo: teamAllInfo));
-    }
-    catch (e){
-      print (e);
-      emit(MatchesRepoState(status: MatchesRepoStatus.FAILURE));
-    }
-
-  }
 
 
 }
