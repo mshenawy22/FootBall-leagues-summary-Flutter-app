@@ -3,8 +3,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'Cubit/matches_repo_cubit.dart';
-import 'models/matches_history.dart';
+import 'Cubit/matches/matches_repo_cubit.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+
+import 'Cubit/teams/teams_repo_cubit.dart';
 import 'services/matches_services.dart';
 import 'dart:developer' as developer;
 
@@ -21,6 +23,9 @@ class MyApp extends StatelessWidget {
           providers: [
             BlocProvider<MatchesRepoCubit>(
               create: (context) => MatchesRepoCubit(),
+            ),
+            BlocProvider<TeamsRepoCubit>(
+              create: (context) => TeamsRepoCubit(),
             ),
 
           ],
@@ -107,38 +112,45 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             BlocConsumer<MatchesRepoCubit, MatchesRepoState>(
-            listener: (context, state) {
-
-            },
+            listener: (context, state) { },
             builder: (context, state) {
               if(state.status== MatchesRepoStatus.FETCHING_MATCHES)
                 return Text('Still loading');
 
-              else if (state.status== MatchesRepoStatus.WINNER_COMPUTED)
-                return
-              Container (
-                padding: EdgeInsets.symmetric(horizontal: 10),
-              child :
-                  Center (
-                      child :   Column (
-
-                        children: [
-                          Text( 'Team with the most wins in last 30 days is : ',
-                              style : Theme.of(context).primaryTextTheme.headline1),
-                          Text('${state.teamWithMostWins?.teamBasicInfo.name} with ${state.teamWithMostWins?.numofWins} wins.',
+              else if (state.status== MatchesRepoStatus.WINNER_COMPUTED) {
+                BlocProvider.of<TeamsRepoCubit>(context).fetchTeamInfo(state.teamWithMostWins!.teamBasicInfo.id!);
+                    return Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Center(
+                            child: Column(children: [
+                          Text('Team with the most wins in last 30 days is : ',
+                              style:
+                                  Theme.of(context).primaryTextTheme.headline1),
+                          Text(
+                            '${state.teamWithMostWins?.teamBasicInfo.name} with ${state.teamWithMostWins?.numofWins} wins.',
                             style: Theme.of(context).primaryTextTheme.headline2,
-                          )
-                        ]
-                    )
-                  )
+                          ),
 
+                            BlocConsumer<TeamsRepoCubit, TeamsRepoState>(
+                            listener: (context, state) { },
+                            builder: (context, state) {
 
-              );
+                              if (state.status ==
+                                  TeamsRepoStatus.TEAM_INFO_SUCCESS)
+                                return  SvgPicture.network(
+                                    state.teamAllInfo!.crestUrl!);
+                              else if (state.status ==
+                                  TeamsRepoStatus.FETCHING_TEAM_INFO)
+                                return Text('loading');
+                              else {
+                                return Text('Error');
+                              }
+                            }
+                            )
 
-
-
-              else
-                return Text('Failed');
+                        ])));
+                  } else
+                return Text('Error');
 
             })
 
