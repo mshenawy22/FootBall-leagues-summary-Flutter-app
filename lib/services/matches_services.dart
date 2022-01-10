@@ -72,9 +72,9 @@ class  MatchServices   {
   computeTeamWithMostWins() async
   {
     var _matchesHistory = await getMatchesList();
-    var matchWinners = await createWinnerTable(_matchesHistory);
-    matchWinners     = sortWinnerTablesbyWins(matchWinners);
-    _teamWithMostWins = Team (name : matchWinners.entries.first.key, numofWins: matchWinners.entries.first.value) ;
+    Map <Area, int> matchWinners = await createWinnerTable(_matchesHistory);
+     matchWinners     = sortWinnerTablesbyWins(matchWinners);
+    _teamWithMostWins = Team (name : matchWinners.entries.first.key.name!, numofWins: matchWinners.entries.first.value) ;
 
 
     print('Team with most wins is ${_teamWithMostWins.name}  with ${_teamWithMostWins.numofWins} wins  ');
@@ -85,7 +85,7 @@ class  MatchServices   {
   createWinnerTable(MatchesHistoryModel _matchesHistory ) async
   {
     // where Map <TeamID , Score>
-    Map matchWinners = Map <String, int>();
+    Map matchWinners = Map <Area, int>();
 
     if (_matchesHistory != null)
     {
@@ -97,14 +97,14 @@ class  MatchServices   {
 
           case Winner.AWAY_TEAM:
             // matchWinners[Team(id : match.awayTeam?.id ,name: match.awayTeam?.name)]  ==null ? 0 :  CountaWin() ;
-            matchWinners[match.awayTeam?.name] =
-            ( matchWinners[match.awayTeam?.name] == null ?0 : ++matchWinners[match.awayTeam?.name]);
+            matchWinners[match.awayTeam] =
+            ( matchWinners[match.awayTeam] == null ?0 : ++matchWinners[match.awayTeam]);
             // developer.log( ( '${match.awayTeam!.name} : No of wons  ${  matchWinners[match.awayTeam?.name]}');
             break;
 
           case Winner.HOME_TEAM:
-            matchWinners[match.homeTeam?.name] =
-            ( matchWinners[match.homeTeam?.name] == null ? 0 : ++matchWinners[match.homeTeam?.name]);
+            matchWinners[match.homeTeam] =
+            ( matchWinners[match.homeTeam] == null ? 0 : ++matchWinners[match.homeTeam]);
 
              // developer.log('${match.homeTeam?.name} : No of wons ${matchWinners[match.homeTeam?.name]}');
             break;
@@ -125,12 +125,11 @@ class  MatchServices   {
 
   }
 
-  sortWinnerTablesbyWins(Map <String, int> matchWinners)
+  sortWinnerTablesbyWins(Map <Area, int> matchWinners)
   {
 
       var sortedEntries = matchWinners.entries.toList()..sort((e1, e2) {
         var diff = e2.value.compareTo(e1.value);
-        if (diff == 0) diff = e2.key.compareTo(e1.key);
         return diff;
       });
 

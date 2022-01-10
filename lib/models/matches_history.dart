@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
+
 class MatchesHistoryModel {
   MatchesHistoryModel({
     this.count,
@@ -106,7 +108,7 @@ class Competition {
   };
 }
 
-class Area {
+class Area extends Equatable {
   Area({
     this.id,
     this.name,
@@ -137,6 +139,10 @@ class Area {
     "id": id == null ? null : id,
     "name": name == null ? null : name,
   };
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [this.id];
 }
 
 class Filters {
