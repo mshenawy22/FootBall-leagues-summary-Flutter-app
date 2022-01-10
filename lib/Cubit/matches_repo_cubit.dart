@@ -18,7 +18,7 @@ class MatchesRepoCubit extends Cubit<MatchesRepoState> {
       await matchservices.computeTeamWithMostWins();
       emit (MatchesRepoState(status:MatchesRepoStatus.success , teamWithMostWins : matchservices.teamWithMostWins()));
     }
-    on Exception {
+    catch (e){
       emit(MatchesRepoState(status: MatchesRepoStatus.failure));
     }
 
