@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor:  Colors.amber,
               primaryTextTheme: const TextTheme(
                 headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                headline2: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold , color: Colors.blue ),
                 bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
               ),
 
@@ -114,8 +115,28 @@ class _MyHomePageState extends State<MyHomePage> {
                 return Text('Still loading');
 
               else if (state.status== MatchesRepoStatus.success)
-                return Text( 'Team with the most wins in last 30 days is \n ${state.teamWithMostWins?.name} with ${state.teamWithMostWins?.numofWins} wins.',
-                style :  Theme.of(context).primaryTextTheme.headline1);
+                return
+              Container (
+                padding: EdgeInsets.symmetric(horizontal: 10),
+              child :
+                  Center (
+                      child :   Column (
+
+                        children: [
+                          Text( 'Team with the most wins in last 30 days is : ',
+                              style : Theme.of(context).primaryTextTheme.headline1),
+                          Text('${state.teamWithMostWins?.name} with ${state.teamWithMostWins?.numofWins} wins.',
+                            style: Theme.of(context).primaryTextTheme.headline2,
+                          )
+                        ]
+                    )
+                  )
+
+
+              );
+
+
+
               else
                 return Text('Failed');
 
