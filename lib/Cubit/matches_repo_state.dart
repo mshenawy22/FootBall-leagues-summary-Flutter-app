@@ -6,7 +6,6 @@ enum MatchesRepoStatus { INITIAL , FETCHING_MATCHES, WINNER_COMPUTED, FETCHING_T
 class MatchesRepoState {
   Team? teamWithMostWins;
   MatchesRepoStatus status;
-  // Competition competition ;
 
   MatchesRepoState({
     this.teamWithMostWins,

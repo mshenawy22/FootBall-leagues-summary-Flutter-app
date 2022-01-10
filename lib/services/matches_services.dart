@@ -72,7 +72,7 @@ class  MatchServices   {
   computeTeamWithMostWins() async
   {
     var _matchesHistory = await getMatchesList();
-    Map <Area, int> matchWinners = await createWinnerTable(_matchesHistory);
+    Map <TeamBasicInfo, int> matchWinners = await createWinnerTable(_matchesHistory);
      matchWinners     = sortWinnerTablesbyWins(matchWinners);
     _teamWithMostWins = Team (name : matchWinners.entries.first.key.name!, numofWins: matchWinners.entries.first.value) ;
 
@@ -85,7 +85,7 @@ class  MatchServices   {
   createWinnerTable(MatchesHistoryModel _matchesHistory ) async
   {
     // where Map <TeamID , Score>
-    Map matchWinners = Map <Area, int>();
+    Map matchWinners = Map <TeamBasicInfo, int>();
 
     if (_matchesHistory != null)
     {
@@ -125,7 +125,7 @@ class  MatchServices   {
 
   }
 
-  sortWinnerTablesbyWins(Map <Area, int> matchWinners)
+  sortWinnerTablesbyWins(Map <TeamBasicInfo, int> matchWinners)
   {
 
       var sortedEntries = matchWinners.entries.toList()..sort((e1, e2) {

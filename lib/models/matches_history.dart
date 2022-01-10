@@ -62,7 +62,7 @@ class Competition {
   });
 
   final int id;
-  final Area? area;
+  final TeamBasicInfo? area;
   final String? name;
   final String? code;
   final String? plan;
@@ -70,7 +70,7 @@ class Competition {
 
   Competition copyWith({
     int? id,
-    Area? area,
+    TeamBasicInfo? area,
     String? name,
     String? code,
     String? plan,
@@ -91,7 +91,7 @@ class Competition {
 
   factory Competition.fromMap(Map<String, dynamic> json) => Competition(
     id: json["id"] == null ? null : json["id"],
-    area: json["area"] == null ? null : Area.fromMap(json["area"]),
+    area: json["area"] == null ? null : TeamBasicInfo.fromMap(json["area"]),
     name: json["name"] == null ? null : json["name"],
     code: json["code"] == null ? null : json["code"],
     plan: json["plan"] == null ? null : json["plan"],
@@ -108,8 +108,8 @@ class Competition {
   };
 }
 
-class Area extends Equatable {
-  Area({
+class TeamBasicInfo extends Equatable {
+  TeamBasicInfo({
     this.id,
     this.name,
   });
@@ -117,20 +117,20 @@ class Area extends Equatable {
   final int? id;
   final String? name;
 
-  Area copyWith({
+  TeamBasicInfo copyWith({
     int? id,
     String? name,
   }) =>
-      Area(
+      TeamBasicInfo(
         id: id ?? this.id,
         name: name ?? this.name,
       );
 
-  factory Area.fromJson(String str) => Area.fromMap(json.decode(str));
+  factory TeamBasicInfo.fromJson(String str) => TeamBasicInfo.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory Area.fromMap(Map<String, dynamic> json) => Area(
+  factory TeamBasicInfo.fromMap(Map<String, dynamic> json) => TeamBasicInfo(
     id: json["id"] == null ? null : json["id"],
     name: json["name"] == null ? null : json["name"],
   );
@@ -205,8 +205,8 @@ class Match {
   final DateTime? lastUpdated;
   final Odds? odds;
   final Score? score;
-  final Area? homeTeam;
-  final Area? awayTeam;
+  final TeamBasicInfo? homeTeam;
+  final TeamBasicInfo? awayTeam;
   final List<Referee>? referees;
 
   Match copyWith({
@@ -220,8 +220,8 @@ class Match {
     DateTime? lastUpdated,
     Odds? odds,
     Score? score,
-    Area? homeTeam,
-    Area? awayTeam,
+    TeamBasicInfo? homeTeam,
+    TeamBasicInfo? awayTeam,
     List<Referee>? referees,
   }) =>
       Match(
@@ -255,8 +255,8 @@ class Match {
     lastUpdated: json["lastUpdated"] == null ? null : DateTime.parse(json["lastUpdated"]),
     odds: json["odds"] == null ? null : Odds.fromMap(json["odds"]),
     score: json["score"] == null ? null : Score.fromMap(json["score"]),
-    homeTeam: json["homeTeam"] == null ? null : Area.fromMap(json["homeTeam"]),
-    awayTeam: json["awayTeam"] == null ? null : Area.fromMap(json["awayTeam"]),
+    homeTeam: json["homeTeam"] == null ? null : TeamBasicInfo.fromMap(json["homeTeam"]),
+    awayTeam: json["awayTeam"] == null ? null : TeamBasicInfo.fromMap(json["awayTeam"]),
     referees: json["referees"] == null ? null : List<Referee>.from(json["referees"].map((x) => Referee.fromMap(x))),
   );
 

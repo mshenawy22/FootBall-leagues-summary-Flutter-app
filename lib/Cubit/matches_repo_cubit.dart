@@ -26,21 +26,21 @@ class MatchesRepoCubit extends Cubit<MatchesRepoState> {
 
   }
 
-  // void fetchTeamInfo(int teamId ) async {
-  //
-  //
-  //   final teamServices = TeamServices(teamId);
-  //
-  //   try {
-  //     await teamServices.findbyID(teamId);
-  //     emit (MatchesRepoState(status:MatchesRepoStatus.FETCHING_TEAM_INFO , teamWithMostWins : matchservices.teamWithMostWins()));
-  //   }
-  //   catch (e){
-  //     print (e);
-  //     emit(MatchesRepoState(status: MatchesRepoStatus.FAILURE));
-  //   }
-  //
-  // }
-
-
+//   void fetchTeamInfo(int teamId ) async {
+//
+//
+//     final teamServices = TeamServices(teamId);
+//
+//     try {
+//       await teamServices.findbyID(teamId);
+//       emit (MatchesRepoState(status:MatchesRepoStatus.FETCHING_TEAM_INFO , teamWithMostWins : matchservices.teamWithMostWins()));
+//     }
+//     catch (e){
+//       print (e);
+//       emit(MatchesRepoState(status: MatchesRepoStatus.FAILURE));
+//     }
+//
+//   }
+//
+//
 }

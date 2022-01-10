@@ -26,7 +26,7 @@ class TeamModel {
   });
 
   int? id;
-  Area? area;
+  TeamBasicInfo? area;
   String? name;
   String? shortName;
   String? tla;
@@ -49,7 +49,7 @@ class TeamModel {
 
   factory TeamModel.fromMap(Map<String, dynamic> json) => TeamModel(
     id: json["id"] == null ? null : json["id"],
-    area: json["area"] == null ? null : Area.fromMap(json["area"]),
+    area: json["area"] == null ? null : TeamBasicInfo.fromMap(json["area"]),
 
     name: json["name"] == null ? null : json["name"],
     shortName: json["shortName"] == null ? null : json["shortName"],
