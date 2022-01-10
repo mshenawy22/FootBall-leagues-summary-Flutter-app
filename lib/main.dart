@@ -1,42 +1,57 @@
-import 'dart:convert';
+// Author : Jay Shenawy
+//email : jay.shenawy@outlook.com
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'Cubit/matches_repo_cubit.dart';
 import 'models/matches_history.dart';
 import 'models/services.dart';
-import 'package:http/http.dart' as http;
+import 'dart:developer' as developer;
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-
 
   @override
   Widget build(BuildContext context) {
+    return
+      MultiBlocProvider(
+          providers: [
+            BlocProvider<MatchesRepoCubit>(
+              create: (context) => MatchesRepoCubit(),
+            ),
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+          ],
+          child:
+          MaterialApp(
+            title: 'BT Assignment',
+            theme: ThemeData(
+              // Define the default brightness and colors.
+              primaryColor:Colors.black ,
+              brightness: Brightness.dark,
+              scaffoldBackgroundColor:  Colors.amber,
+              primaryTextTheme: const TextTheme(
+                headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold),
+                bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+              ),
+
+              // Define the default font family.
+              fontFamily: 'Georgia',
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              appBarTheme : AppBarTheme(titleTextStyle: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold)),
+              // Define the default `TextTheme`. Use this to specify the default
+              // text styling for headlines, titles, bodies of text, and more.
+
+            ),
+
+            home:
+            MyHomePage(title: 'BT Assignment'),
+          )
+      );
   }
+
 }
 
 class MyHomePage extends StatefulWidget {
@@ -58,41 +73,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  MatchServices _matchServices = MatchServices();
-
-
   @override
   void initState() {
-    computeWinners();
+
+    BlocProvider.of<MatchesRepoCubit>(context).fetching();
 
   }
-
-  computeWinners() async
-  {
-
-    await _matchServices.getMatchesList();
-    _matchServices.createWinnerTable();
-
-
-  }
-
-
-
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-
-
 
 
   @override
@@ -116,63 +102,29 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            BlocConsumer<MatchesRepoCubit, MatchesRepoState>(
+            listener: (context, state) {
 
-            FutureBuilder<MatchesHistory>(
-            future: _matchServices.getMatchesList(),
-            builder: (BuildContext context, snapshot) {
+            },
+            builder: (context, state) {
+              if(state.status== MatchesRepoStatus.loading)
+                return Text('Still loading');
 
-              if (snapshot.hasData) {
+              else if (state.status== MatchesRepoStatus.success)
+                return Text( 'Team with the most wins in last 30 days is \n ${state.teamWithMostWins?.name} with ${state.teamWithMostWins?.numofWins} wins.',
+                style :  Theme.of(context).primaryTextTheme.headline1);
+              else
+                return Text('Failed');
 
-                var sortedEntries = _matchServices.matchWinners.entries.toList()..sort((e1, e2) {
-                  var diff = e2.value.compareTo(e1.value);
-                  if (diff == 0) diff = e2.key.compareTo(e1.key);
-                  return diff;
-                });
-                //
+            })
 
-                _matchServices.matchWinners..clear()..addEntries(sortedEntries);
-
-                print ( _matchServices.matchWinners);
-
-
-
-
-
-                return Text(
-
-                  'You have pushed the button this ',
-                );
-              }
-              else {
-                return Text('');
-              }
-            }
-              ),
-
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+
     );
   }
 }
