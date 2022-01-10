@@ -17,7 +17,7 @@ class TeamServices {
 
 
 
-  findbyID(int id) async
+    findbyID(int id) async
   {
     var _get_team_id = GET_TEAM +'${id}' ;
     Uri uri = Uri.https(BASE_URL,_get_team_id);
@@ -33,6 +33,8 @@ class TeamServices {
     );
 
     this.team =   TeamModel.fromJson(response.body);
+
+    return this.team;
 
   }
 
