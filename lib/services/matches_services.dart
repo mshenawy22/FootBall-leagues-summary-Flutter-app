@@ -5,7 +5,9 @@ import 'package:equatable/equatable.dart';
 import 'dart:developer' as developer;
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
-import 'matches_history.dart' hide Duration;
+import '../models/matches_history.dart' hide Duration;
+import 'api_config.dart';
+
 
 
 
@@ -23,14 +25,7 @@ class Team extends Equatable{
 class  MatchServices   {
   late Team _teamWithMostWins ;
 
-  static const _baseUrl = 'api.football-data.org';
-  static const String _GET_MATCHES = '/v2/competitions/2021/matches/';
-  static const Map<String, String> _QUERY_PARAMS =
-  {
-    'dateFrom' : '2021-10-08',
-    'dateTo'   : '2022-01-09',
-    'status'   :  'FINISHED'
-  };
+
 
 
   DateToday(){
@@ -49,7 +44,7 @@ class  MatchServices   {
   }
 
 
-  Future<MatchesHistory> getMatchesList() async {
+  Future<MatchesHistoryModel> getMatchesList() async {
 
     var queryParams = {
       'dateFrom' : Date30daysAgo(),
@@ -57,7 +52,7 @@ class  MatchServices   {
       'status'   :  'FINISHED'
 
     };
-    Uri uri = Uri.https(_baseUrl, _GET_MATCHES , queryParams);
+    Uri uri = Uri.https(BASE_URL, GET_MATCHES , queryParams);
 
     developer.log(uri.toString(), name: 'just logging');
     print(uri.toString());
@@ -69,7 +64,7 @@ class  MatchServices   {
       },
     );
 
-    MatchesHistory _matchesHistory = await MatchesHistory.fromJson(response.body);
+    MatchesHistoryModel _matchesHistory = await MatchesHistoryModel.fromJson(response.body);
     return _matchesHistory ;
 
   }
@@ -87,8 +82,9 @@ class  MatchServices   {
   }
 
 
-  createWinnerTable(MatchesHistory _matchesHistory ) async
+  createWinnerTable(MatchesHistoryModel _matchesHistory ) async
   {
+    // where Map <TeamID , Score>
     Map matchWinners = Map <String, int>();
 
     if (_matchesHistory != null)
@@ -149,9 +145,5 @@ class  MatchServices   {
   }
 
 
-
-
 }
-
-
 
