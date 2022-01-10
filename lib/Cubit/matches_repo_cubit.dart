@@ -23,5 +23,5 @@ class MatchesRepoCubit extends Cubit<MatchesRepoState> {
     }
 
   }
-  
+
 }
