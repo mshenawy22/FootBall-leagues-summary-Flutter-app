@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-class MatchesHistory {
-  MatchesHistory({
+class MatchesHistoryModel {
+  MatchesHistoryModel({
     this.count,
     this.filters,
     this.competition,
@@ -17,24 +17,24 @@ class MatchesHistory {
   final Competition? competition;
   final List<Match>? matches;
 
-  MatchesHistory copyWith({
+  MatchesHistoryModel copyWith({
     int? count,
     Filters? filters,
     Competition? competition,
     List<Match>? matches,
   }) =>
-      MatchesHistory(
+      MatchesHistoryModel(
         count: count ?? this.count,
         filters: filters ?? this.filters,
         competition: competition ?? this.competition,
         matches: matches ?? this.matches,
       );
 
-  factory MatchesHistory.fromJson(String str) => MatchesHistory.fromMap(json.decode(str));
+  factory MatchesHistoryModel.fromJson(String str) => MatchesHistoryModel.fromMap(json.decode(str));
 
   String toJson() => json.encode(toMap());
 
-  factory MatchesHistory.fromMap(Map<String, dynamic> json) => MatchesHistory(
+  factory MatchesHistoryModel.fromMap(Map<String, dynamic> json) => MatchesHistoryModel(
     count: json["count"] == null ? null : json["count"],
     filters: json["filters"] == null ? null : Filters.fromMap(json["filters"]),
     competition: json["competition"] == null ? null : Competition.fromMap(json["competition"]),
