@@ -5,10 +5,12 @@ enum MatchesRepoStatus { INITIAL , FETCHING_MATCHES, WINNER_COMPUTED, FETCHING_T
 
 class MatchesRepoState {
   Team? teamWithMostWins;
+  TeamModel? teamAllInfo;
   MatchesRepoStatus status;
 
   MatchesRepoState({
     this.teamWithMostWins,
+    this.teamAllInfo,
     required this.status
     // required this.competition,
   });
