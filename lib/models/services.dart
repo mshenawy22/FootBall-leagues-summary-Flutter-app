@@ -1,10 +1,12 @@
 import 'dart:collection';
-
+import 'dart:core';
+export 'package:intl/intl.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart' as http;
-
-import 'matches_history.dart';
 import 'dart:developer' as developer;
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
+import 'matches_history.dart' hide Duration;
+
 
 
 class Team extends Equatable{
@@ -31,11 +33,34 @@ class  MatchServices   {
   };
 
 
+  DateToday(){
+    DateFormat formatter = DateFormat('yyyy-MM-dd');
+    return formatter.format(DateTime.now());
+
+  }
+
+
+  Date30daysAgo(){
+
+    DateFormat formatter = DateFormat('yyyy-MM-dd');
+
+    DateTime _date = DateTime.now().subtract(Duration(days: 30));
+    return formatter.format(_date);
+  }
+
 
   Future<MatchesHistory> getMatchesList() async {
-    Uri uri = Uri.https(_baseUrl, _GET_MATCHES , _QUERY_PARAMS);
+
+    var queryParams = {
+      'dateFrom' : Date30daysAgo(),
+      'dateTo'   :  DateToday(),
+      'status'   :  'FINISHED'
+
+    };
+    Uri uri = Uri.https(_baseUrl, _GET_MATCHES , queryParams);
 
     developer.log(uri.toString(), name: 'just logging');
+    print(uri.toString());
 
     final response = await http.get(
       uri,
