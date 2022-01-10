@@ -1,4 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+
+import 'models/matches_history.dart';
+import 'models/services.dart';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
@@ -8,8 +15,11 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
+
+
   @override
   Widget build(BuildContext context) {
+
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -49,6 +59,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  MatchServices _matchServices = MatchServices();
+
+
+  @override
+  void initState() {
+    computeWinners();
+
+  }
+
+  computeWinners() async
+  {
+
+    await _matchServices.getMatchesList();
+    _matchServices.createWinnerTable();
+
+
+  }
+
+
+
 
   void _incrementCounter() {
     setState(() {
@@ -61,8 +91,15 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
+
+    // var match_services =  MatchServices();
+    // MatchesHistory matchesHistory =  match_services.getMatchesList();
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
     //
@@ -88,16 +125,42 @@ class _MyHomePageState extends State<MyHomePage> {
           // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
           // to see the wireframe for each widget.
           //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
+
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+
+            FutureBuilder<MatchesHistory>(
+            future: _matchServices.getMatchesList(),
+            builder: (BuildContext context, snapshot) {
+
+              if (snapshot.hasData) {
+
+                var sortedEntries = _matchServices.matchWinners.entries.toList()..sort((e1, e2) {
+                  var diff = e2.value.compareTo(e1.value);
+                  if (diff == 0) diff = e2.key.compareTo(e1.key);
+                  return diff;
+                });
+                //
+
+                _matchServices.matchWinners..clear()..addEntries(sortedEntries);
+
+                print ( _matchServices.matchWinners);
+
+
+
+
+
+                return Text(
+
+                  'You have pushed the button this ',
+                );
+              }
+              else {
+                return Text('');
+              }
+            }
+              ),
+
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
