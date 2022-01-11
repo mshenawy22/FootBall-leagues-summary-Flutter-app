@@ -1,16 +1,18 @@
 # bt_assignment
 
-A new Flutter project.
+The app can compute the team with the most wins within the last 30 days within any league provided .
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+To configure the league please change the competition code at : services/api_config.dart
 
-A few resources to get you started if this is your first Flutter project:
+App Architecture : Flutter Bloc (Cubits)
+Screenshots : Attached 
+SourceCode :  attached in zip file.
+Here's the github link https://github.com/mshenawy22/BT_Assignment/  (It's private please let me know the reviewers emails to give them access to the repo)
+I recommend building from the github repo so the reviewers can see all my work history and also have access to the unit tests which I will add later.
+APK File : Attached APK_jay_shenawy_BT Assignment app-release.zip
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Please let me know if anything else is needed.(specially regarding github access if required)
+And looking forward to hearing back from you.
+
