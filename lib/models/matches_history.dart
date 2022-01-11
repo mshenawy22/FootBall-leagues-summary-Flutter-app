@@ -51,7 +51,7 @@ class MatchesHistoryModel {
   };
 }
 
-class Competition {
+class Competition extends Equatable {
   Competition({
     required this.id,
     this.area,
@@ -106,6 +106,10 @@ class Competition {
     "plan": plan == null ? null : plan,
     "lastUpdated": lastUpdated == null ? null : lastUpdated?.toIso8601String(),
   };
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [this.id, this.name, this.area , this.code , this.plan , this.lastUpdated];
 }
 
 class TeamBasicInfo extends Equatable {
