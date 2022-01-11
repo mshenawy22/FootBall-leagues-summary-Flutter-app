@@ -1,8 +1,8 @@
 # bt_assignment
 
 The app can compute the team with the most wins within the last 30 days within any league provided .
-
-
+![Alt text](/sc1/png?raw=true "Optional Title")
+![Alt text](/sc2/png?raw=true "Optional Title")
 To configure the league please change the competition code at : services/api_config.dart
 
 App Architecture : Flutter Bloc (Cubits)
