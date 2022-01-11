@@ -37,10 +37,12 @@ class MyApp extends StatelessWidget {
               primaryColor:Colors.black ,
               brightness: Brightness.dark,
               scaffoldBackgroundColor:  Colors.amber,
+              dividerColor:  Colors.white,
               primaryTextTheme: const TextTheme(
                 headline1: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold, color: Colors.black87),
                 headline2: TextStyle(fontSize: 30.0, fontWeight: FontWeight.bold , color: Colors.blue ),
-                bodyText1: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
+                headline3: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold , color: Colors.blue ),
+                bodyText1: TextStyle(fontSize: 20.0, fontFamily: 'Hind', color:Colors.black87 ),
               ),
 
               // Define the default font family.
@@ -104,60 +106,127 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
+      body:
 
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            BlocConsumer<MatchesRepoCubit, MatchesRepoState>(
-            listener: (context, state) { },
-            builder: (context, state) {
-              if(state.status== MatchesRepoStatus.FETCHING_MATCHES)
-                return Text('Still loading');
-
-              else if (state.status== MatchesRepoStatus.WINNER_COMPUTED) {
-                BlocProvider.of<TeamsRepoCubit>(context).fetchTeamInfo(state.teamWithMostWins!.teamBasicInfo.id!);
-                    return Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: Center(
-                            child: Column(children: [
-                          Text('Team with the most wins in last 30 days is : ',
-                              style:
-                                  Theme.of(context).primaryTextTheme.headline1),
-                          Text(
-                            '${state.teamWithMostWins?.teamBasicInfo.name} with ${state.teamWithMostWins?.numofWins} wins.',
-                            style: Theme.of(context).primaryTextTheme.headline2,
-                          ),
-
-                            BlocConsumer<TeamsRepoCubit, TeamsRepoState>(
-                            listener: (context, state) { },
-                            builder: (context, state) {
-
-                              if (state.status ==
-                                  TeamsRepoStatus.TEAM_INFO_SUCCESS)
-                                return  SvgPicture.network(
-                                    state.teamAllInfo!.crestUrl!);
-                              else if (state.status ==
-                                  TeamsRepoStatus.FETCHING_TEAM_INFO)
-                                return Text('loading');
-                              else {
-                                return Text('Error');
-                              }
-                            }
-                            )
-
-                        ])));
-                  } else
-                return Text('Error');
-
-            })
-
-          ],
+      Container (
+        margin: EdgeInsets.all(10),
+        decoration :  ShapeDecoration(
+            shape:
+            Border.all(width: 2.0, color: Theme.of(context).dividerColor)
         ),
-      ),
-
-    );
+          child: Center(
+            // Center is a layout widget. It takes a single child and positions it
+            // in the middle of the parent.
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Container(height: 30),
+                BlocConsumer<MatchesRepoCubit, MatchesRepoState>(
+                    listener: (context, state) {},
+                    builder: (context, state) {
+                      if (state.status == MatchesRepoStatus.FETCHING_MATCHES)
+                        return Text('Still loading');
+                      else if (state.status ==
+                          MatchesRepoStatus.WINNER_COMPUTED) {
+                        BlocProvider.of<TeamsRepoCubit>(context).fetchTeamInfo(
+                            state.teamWithMostWins!.teamBasicInfo.id!);
+                        return Container(
+                            margin: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(10),
+                            child: Center(
+                                child: Column(children: [
+                              Text(
+                                  '${state.teamWithMostWins!.competition!.name}',
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline3),
+                              Container(height: 20),
+                              Text(
+                                  'Team with the most wins in last 30 days is : ',
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .headline1),
+                              Container(height: 20),
+                              Text(
+                                '${state.teamWithMostWins?.teamBasicInfo.name} with ${state.teamWithMostWins?.numofWins} wins.',
+                                style: Theme.of(context)
+                                    .primaryTextTheme
+                                    .headline2,
+                              ),
+                              BlocConsumer<TeamsRepoCubit, TeamsRepoState>(
+                                  listener: (context, state) {},
+                                  builder: (context, state) {
+                                    if (state.status ==
+                                        TeamsRepoStatus.TEAM_INFO_SUCCESS) {
+                                      return Container(
+                                          child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: [
+                                          state.teamAllInfo!.crestUrl!
+                                                  .contains('svg')
+                                              ? SvgPicture.network(
+                                                  state.teamAllInfo!.crestUrl!)
+                                              : Container(
+                                                  width: 150,
+                                                  height: 150,
+                                                  child: Image.network(state
+                                                      .teamAllInfo!.crestUrl!)),
+                                          Container(
+                                            height: 20,
+                                          ),
+                                          Container(
+                                              child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                  'Pitch :${state.teamAllInfo!.venue}',
+                                                  style: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .bodyText1),
+                                              Container(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                  'Founded :${state.teamAllInfo!.founded}',
+                                                  style: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .bodyText1),
+                                              Container(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                  'Website :${state.teamAllInfo!.website}',
+                                                  style: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .bodyText1),
+                                              Container(
+                                                height: 10,
+                                              ),
+                                              Text(
+                                                  'Club Address :${state.teamAllInfo!.address}',
+                                                  style: Theme.of(context)
+                                                      .primaryTextTheme
+                                                      .bodyText1)
+                                            ],
+                                          ))
+                                        ],
+                                      ));
+                                    } else if (state.status ==
+                                        TeamsRepoStatus.FETCHING_TEAM_INFO)
+                                      return Text('loading');
+                                    else {
+                                      return Text('Error');
+                                    }
+                                  })
+                            ])));
+                      } else
+                        return Text('Error');
+                    })
+              ],
+            ),
+          ),
+        ));
   }
 }
