@@ -10,11 +10,11 @@ import 'api_config.dart';
 
 
 
-
 class Team extends Equatable{
-  Team({required  this.teamBasicInfo , required  this.numofWins});
+  Team({required  this.teamBasicInfo , required  this.numofWins , this.competition});
 
   final TeamBasicInfo teamBasicInfo;
+  Competition? competition;
   final int numofWins;
 
   @override
@@ -24,6 +24,7 @@ class Team extends Equatable{
 
 class  MatchServices   {
   late Team _teamWithMostWins ;
+  late Competition competition;
 
 
 
@@ -72,10 +73,11 @@ class  MatchServices   {
   computeTeamWithMostWins() async
   {
     var _matchesHistory = await getMatchesList();
+    competition = _matchesHistory.competition!;
     Map <TeamBasicInfo, int> matchWinners = await createWinnerTable(_matchesHistory);
      matchWinners     = sortWinnerTablesbyWins(matchWinners);
-    _teamWithMostWins = Team (teamBasicInfo : matchWinners.entries.first.key, numofWins: matchWinners.entries.first.value) ;
-
+    _teamWithMostWins = Team (teamBasicInfo : matchWinners.entries.first.key, numofWins: matchWinners.entries.first.value  ) ;
+    _teamWithMostWins.competition = competition ;
 
     print('Team with most wins is ${_teamWithMostWins.teamBasicInfo.name}  with ${_teamWithMostWins.numofWins} wins  ');
 
