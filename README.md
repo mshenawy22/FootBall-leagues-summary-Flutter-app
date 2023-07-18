@@ -3,7 +3,6 @@
 This app is an example of using bloc/cubits in simple applications
 
 The app can compute the team with the most wins within the last 30 days within any league provided .
-![image](https://user-images.githubusercontent.com/49027183/202910139-fcfb095c-2ac0-4d68-ad45-5d36631b2405.png)
 ![image](https://user-images.githubusercontent.com/49027183/202910174-fe594b42-fef0-4b04-a9ed-5c6ef5d27734.png)
 
 To configure the league please change the competition code at : services/api_config.dart
